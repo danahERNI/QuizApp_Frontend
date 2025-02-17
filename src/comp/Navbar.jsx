@@ -1,17 +1,26 @@
-import React from "react";
-import '../index.css';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Navbar(){
-    return(
-        <div className="text-2xl h-4 p-5 flex justify-end items-center">
-            <nav className="">
-                <li className="list-none flex flex-row space-x-4">
-                    <ul><a className="hover:underline " href="#">options</a></ul>
-                    <ul><a className="hover:underline " href="#">options</a></ul>
-                </li>
-            </nav>
-        </div>
-    );
+function Navbar() {
+  return (
+    <div className="bg-gray-800 p-4 flex justify-between items-center">
+      <div className="text-white text-2xl font-bold">
+        Hello, Teacher "{`name`}"
+      </div>
+      <div className="flex space-x-6">
+        {/* Links for different sections */}
+        <Link to="/CreateQuiz" className="text-white hover:bg-blue-600 px-4 py-2 rounded-lg transition-all">
+          Create Quiz
+        </Link>
+        <Link to="/QuizManagement" className="text-white hover:bg-blue-600 px-4 py-2 rounded-lg transition-all">
+          Quiz Management
+        </Link>
+        <Link to="/logout" className="text-white hover:bg-red-600 px-4 py-2 rounded-lg transition-all">
+          Logout
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default Navbar;
