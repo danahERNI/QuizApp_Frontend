@@ -16,7 +16,7 @@ function Logout() {
           alert("Successfully logged out.");
           navigate('/');
         } catch (error) {
-          console.error('Logout failed', error);
+          console.error('Logout failed:', error);
           alert('Logout failed: ' + error.message);
         }
       };

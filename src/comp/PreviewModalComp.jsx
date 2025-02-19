@@ -11,6 +11,7 @@ function PreviewModalComp({ isOpen, onClose, quizId }) {
     const fetchQuizDetails = async () => {
       setLoading(true);
       try {
+
         const response = await axios.get(`https://localhost:7142/api/Quiz/${quizId}`, {
           withCredentials: true,
         });

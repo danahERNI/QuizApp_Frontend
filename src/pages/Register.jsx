@@ -43,10 +43,7 @@ function Register() {
       alert('Error: ' + error.message);
     }
   }
-  // const handleNameChange = (e) => {
-  //   console.log('Name:', e.target.value);
-  //   setName(e.target.value);
-  // };
+  
   return (
     <div className="w-screen h-screen">
       <div className="bg-slate-100 w-full h-full p-20 justify-center items-center flex flex-row">

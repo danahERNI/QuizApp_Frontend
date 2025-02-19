@@ -6,14 +6,18 @@ import EditButtonComp from './EditButtonComp';
 import RemoveButtonComp from './RemoveButtonComp';
 import ViewButtonComp from './ViewButtonComp';
 import PreviewModalComp from './PreviewModalComp';
+import EditModalComp from './EditModalComp';
 
 function Table() {
     const [quizzes, setQuizzes] = useState([]);
     const [selectedQuizId, setSelectedQuizId] = useState(null);
+    const [selectedQuizForEdit, setSelectedQuizForEdit] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const userId = localStorage.getItem('userId');
     
     useEffect(()=>{
-        axios.get('https://localhost:7142/api/Quiz')
+        axios.get(`https://localhost:7142/api/Quiz/Mentor/${userId}`)
         .then((response)=>{
             console.log(response.data);
             setQuizzes(response.data)
@@ -86,7 +90,7 @@ function Table() {
                                         <ViewButtonComp onClick={() => { setSelectedQuizId(quiz.id); setIsModalOpen(true);}}/>
                                     </div>
                                     <div>
-                                        <EditButtonComp/>
+                                        <EditButtonComp onClick={() => { setSelectedQuizForEdit(quiz.id); setIsEditModalOpen(true); }}/>
                                     </div>
                                     <div>
                                         <RemoveButtonComp onClick={() => handleDeleteQuiz(quiz.id)}/>
@@ -101,6 +105,7 @@ function Table() {
             </div>
         </div>
             <PreviewModalComp isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} quizId={selectedQuizId} />
+            <EditModalComp isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} quizId={selectedQuizForEdit} />
     </div>
   )
 }
