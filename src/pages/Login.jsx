@@ -21,26 +21,30 @@ function Login() {
       password: password
     };
     try{
-      const response = await fetch('https://localhost:7142/api/user/login', {
+      const response = await fetch('https://localhost:7142/api/User/login', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json',
         },
         body: JSON.stringify(loginInfo),
+        credentials: 'include',
       });
-      const data = await response.json();
-      console.log(data)
-      
       if(response.ok){
+        const data = await response.json()
+        console.log(data)
 
         Cookies.set('authToken', data.token, { expires: 7 });
         
         const userRole = data.role;
+
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userRole', data.role);
         // console.log("user role",userRole);
 
-        if(userRole === 'teacher'){
+        if(userRole === 'Teacher'){
           navigate('/QuizManagement');
-        }else if (userRole === 'student'){
+        }else if (userRole === 'Student'){
           navigate('/StudentDash')
         }else{
           alert("Invalid role.")
@@ -50,19 +54,9 @@ function Login() {
         alert(data.message || 'login failed')
       }
     } catch(error) {
-      console.error("Login failed", error);
-      alert("Login failed.")
+      console.error('Login failed', error);
     }
   };
-  //   try{
-  //     const response = await axios.post('https://localhost:7142/api/user/login', { email, password });
-  //     if(response.status === 200){
-  //       navigate('/QuizManagement')
-  //     }
-  //   }catch(error){
-  //     alert('Invalid credentials.');
-  //   }
-  // }
   
   return (
     <div className="w-screen h-screen">

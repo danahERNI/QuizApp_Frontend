@@ -74,8 +74,8 @@ function Register() {
                   <label htmlFor="role">Role:</label>
                   <select className="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5" type="role" name="role" id="register_role" value={role} onChange={(e) => setRole(e.target.value)}> 
                     <option value="" disabled>Select role...</option>
-                    <option value="student">Student</option>
-                    <option value="teacher">Teacher</option>
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
                   </select>
                 </div>
               </div>

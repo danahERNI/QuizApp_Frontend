@@ -1,44 +1,44 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ChoiceFormComponent from './ChoiceFormComponent'
 import AddButtonComp from './AddButtonComp'
 import RemoveButtonComp from './RemoveButtonComp'
 import Textbox from './Textbox'
 
-function QuestionFormComponent() {
-    const navigate = useNavigate();
-    
+function QuestionFormComponent({question, index, onRemove, setQuestions, questions}) {
+
     const [choices, setChoices] = useState([{id:1, value: ''}]);
-    
-    const handleRemoveOption = () =>{
-        navigate('/QuizManagement');
-    };
     
     const handleAddChoice = () => {
         const newChoice = { id: choices.length + 1, value: ''};
         setChoices([...choices, newChoice]);
     }
 
+    const handleQuestionChange = (id, newValue) => {
+        const updatedQuestions = questions.map(q =>
+            q.id === id ? { ...q, value: newValue } : q
+        );
+        setQuestions(updatedQuestions);
+    };
+    
   return (
     <div>
-      <div className="bg-slate-300 space-y-4 rounded-lg p-5 flex flex-col">
+       <div className="bg-slate-300 space-y-4 rounded-lg p-5 flex flex-col">
             <div className='w-full flex flex-col' > 
-                <label htmlFor="question">Question:</label>
+                <label htmlFor={`question-${question.id}`}>Question {index + 1}</label>
                 <div className='flex flex-row space-x-2'>
-                    <Textbox type="text" name="question" placeholder="Enter question"/>
+                    <Textbox type="text" name={`question-${question.id}`} onChange={(e) => handleQuestionChange(question.id, e.target.value)} placeholder="Enter question"/>
                     <div>
                         <AddButtonComp onClick={handleAddChoice}/>
                     </div>
                 </div>
-                    
             </div>
             {choices.length > 0 ? (
                     <ChoiceFormComponent choices={choices} setChoices={setChoices} />
                 ) : (
-                    <p>No choices available</p> // This can help identify if the state is empty
+                    <p>No choices available</p>
                 )}
 
-            <RemoveButtonComp onClick={handleRemoveOption} label="Remove Question"/>
+            <RemoveButtonComp onClick={() => onRemove(question.id)} label="Remove Question"/>
           </div>
     </div>
   )

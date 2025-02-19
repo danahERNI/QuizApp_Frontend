@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import AddButtonComp from './AddButtonComp'
 import Textbox from './Textbox'
 import RemoveButtonComp from './RemoveButtonComp'
 
@@ -17,7 +16,6 @@ function ChoiceFormComponent({ choices, setChoices }) {
         setChoices(updatedChoices);
     }
     
-
   return (
     <div>
         {choices.map((choice, index) => (
@@ -34,7 +32,6 @@ function ChoiceFormComponent({ choices, setChoices }) {
                         <RemoveButtonComp onClick={() => handleRemoveChoice(choice.id)} label=""/>
                     </div>
                 </div>
-                    
             </div>
         ))}
     </div>
