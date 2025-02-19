@@ -21,27 +21,31 @@ function Login() {
       password: password
     };
     try{
-      const response = await fetch('https://localhost:7142/api/user/login', {
+      const response = await fetch('https://localhost:7142/api/User/login', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json',
         },
         body: JSON.stringify(loginInfo),
+        credentials: 'include',
       });
-      const data = await response.json();
-      console.log(data)
-      
       if(response.ok){
+        const data = await response.json()
+        console.log(data)
 
         Cookies.set('authToken', data.token, { expires: 7 });
         
         const userRole = data.role;
+
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userRole', data.role);
         // console.log("user role",userRole);
 
-        if(userRole === 'teacher'){
+        if(userRole === 'Teacher'){
           navigate('/QuizManagement');
-        }else if (userRole === 'student'){
-          navigate('/StudentDash')
+        }else if (userRole === 'Student'){
+          navigate('/Index')
         }else{
           alert("Invalid role.")
         }
@@ -50,19 +54,9 @@ function Login() {
         alert(data.message || 'login failed')
       }
     } catch(error) {
-      console.error("Login failed", error);
-      alert("Login failed.")
+      console.error('Login failed', error);
     }
   };
-  //   try{
-  //     const response = await axios.post('https://localhost:7142/api/user/login', { email, password });
-  //     if(response.status === 200){
-  //       navigate('/QuizManagement')
-  //     }
-  //   }catch(error){
-  //     alert('Invalid credentials.');
-  //   }
-  // }
   
   return (
     <div className="w-screen h-screen">
@@ -76,7 +70,6 @@ function Login() {
               <div className="space-y-3">
                 <div>
                   <label htmlFor="email">Email:</label>
-                  {/* <input type="text" name="login_email" id="login_email" className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' placeholder='email@emailprovider.com'/> */}
                   <Textbox type="email" name="email" id="login_email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div>

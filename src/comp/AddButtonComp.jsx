@@ -7,7 +7,6 @@ function AddButtonComp({onClick, label}) {
           add_box
         </span>{label}
       </button>
-      
     )
   }
 
