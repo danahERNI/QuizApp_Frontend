@@ -32,19 +32,20 @@ function PreviewModalComp({ isOpen, onClose, quizId }) {
 
   return (
     <div className="fixed inset-0 p-10 bg-transparent flex backdrop-blur-xs items-center justify-center">
-      <div className="bg-white h-full p-5 rounded-lg shadow-sm max-w-lg w-full overflow-y-scroll">
+      <div className="bg-white max-h-full min-h-1/2 p-5 rounded-lg shadow-sm max-w-lg w-full overflow-y-scroll">
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : (
           quizData && (
             <>
-              <h2 className="text-xl font-bold mb-4">{quizData.title}</h2>
+              <h1 className="text-xl font-medium mb-4 uppercase">{quizData.title}</h1>
               <div className="space-y-4">
 
                 {quizData.question && quizData.question.length > 0 ? (
+
                     quizData.question.map((question, qIndex) => (
 
-                        <div key={qIndex} className="p-4 border rounded-lg bg-gray-100">
+                        <div key={qIndex} className="p-4 rounded-lg bg-gray-100">
                             <p className="font-semibold">{question.body}</p>
 
                             {question.choices && question.choices.length > 0 ? (

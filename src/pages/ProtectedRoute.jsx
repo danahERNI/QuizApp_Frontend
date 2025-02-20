@@ -7,6 +7,8 @@ const ProtectedRoute = ({allowed, children}) => {
     alert("Unauthorized to access page.");
     return <Navigate to="/Index" replace/>
  }
+ return children;
+//  console.log(children)
 }
 
 export default ProtectedRoute
