@@ -6,7 +6,6 @@ import Register from './pages/Register.jsx';
 import Logout from './pages/Logout.jsx';
 import CreateQuiz from './pages/CreateQuiz.jsx';
 import Index from './pages/Index.jsx';
-import Try from './pages/Try.jsx';
 import ProtectedRoute from './pages/ProtectedRoute.jsx';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
@@ -24,8 +23,13 @@ function App() {
           <Route path="/" element={<Login />}></Route>
           <Route path="/Register" element={<Register />}></Route>
 
-          <Route path="/Index" element={<Index />}></Route>
-          <Route path="/Try" element={<Try />}></Route>
+          
+          <Route path="/Index" element={
+            <ProtectedRoute allowed={['Student']}>
+              <Index/>
+            </ProtectedRoute>
+            }
+            />
 
           <Route path="/QuizManagement" 
             element={
