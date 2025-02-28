@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ButtonComponent from '../comp/ButtonComponent';
 import AddButtonComp from '../comp/AddButtonComp';
@@ -8,6 +9,8 @@ import Textbox from '../comp/Textbox';
 function QuizComp({isEdit}) {
 
     const navigate = useNavigate();
+    const jwt = localStorage.getItem("authToken"); 
+    const userId = localStorage.getItem("userId");
     const [quizTitle, setQuizTitle] = useState('');
     const [questions, setQuestions] = useState([{ id: 1, body: '', choices: [{ id: 1, name: '', isCorrect: false }] }]);
 
@@ -75,6 +78,7 @@ function QuizComp({isEdit}) {
 
         const quizData = {
             title: quizTitle,
+            userId: userId,
             questionDTO: questions.map(q => ({
                 body: q.body,
                 choices: q.choices.map(choice => ({
@@ -85,13 +89,16 @@ function QuizComp({isEdit}) {
         };
 
         try {
-            const response = await fetch('https://localhost:7142/api/Quiz/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(quizData)
+            // const response = await fetch('https://localhost:7142/api/Quiz/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(quizData)
+            // });
+            const response = await axios.post('https://localhost:7142/api/Quiz', quizData, {
+                headers: {Authorization: `Bearer ${jwt}`}
             });
 
-            if (response.ok) {
+            if (response) {
                 alert('Quiz created!');
                 navigate('/QuizManagement');
             } else {

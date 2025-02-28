@@ -1,18 +1,16 @@
 import React from 'react'
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 function Logout() {
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         try {
-          await fetch('https://localhost:7142/api/User/logout', {
-            method: 'POST',
-            credentials: 'include',
-          });
-    
-          Cookies.remove('authToken');
+          localStorage.removeItem("authToken");
+          localStorage.removeItem('userId');
+          localStorage.removeItem('userName');
+          localStorage.removeItem('userRole');
+
           alert("Successfully logged out.");
           navigate('/');
         } catch (error) {

@@ -7,13 +7,13 @@ function Navbar() {
   const [user, setUser] = useState(null);
   const storedUserRole = localStorage.getItem('userRole');
   const storedUserName = localStorage.getItem('userName');
+  const jwt = localStorage.getItem('authToken')
 
-  // setUser({userRole: storedUserRole, username:storedUserName});
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get('https://localhost:7142/api/User/session-data', {
-          withCredentials: true,
+          headers: {Authorization: `Bearer ${jwt}`}
         });
         setUser(response.data)
         console.log(setUser)
@@ -27,7 +27,6 @@ function Navbar() {
   return (
     <div className="bg-gray-800 p-4 flex justify-between items-center">
       <div className="text-white text-2xl font-bold">
-        {/* Hello, {user ? `${user.userRole} ${user.userName}` : 'Guest'} */}
         Hello, {user ? `${storedUserRole} ${storedUserName}` : 'Guest'}
       </div>
       <div className="flex space-x-6">

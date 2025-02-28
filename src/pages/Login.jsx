@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Cookies from 'js-cookie';
 import axios from 'axios'
 import Textbox from '../comp/Textbox.jsx'
 import ButtonComponent from '../comp/ButtonComponent.jsx'
@@ -31,16 +30,14 @@ function Login() {
       });
       if(response.ok){
         const data = await response.json()
-        console.log(data)
 
-        Cookies.set('authToken', data.token, { expires: 7 });
+        localStorage.setItem('authToken', data.token);
         
         const userRole = data.role;
 
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
         localStorage.setItem('userRole', data.role);
-        // console.log("user role",userRole);
 
         if(userRole === 'Teacher'){
           navigate('/QuizManagement');

@@ -15,9 +15,15 @@ function Table() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const userId = localStorage.getItem('userId');
+    const jwt = localStorage.getItem('authToken');
     
     useEffect(()=>{
-        axios.get(`https://localhost:7142/api/Quiz/Mentor/${userId}`)
+        axios.get(`https://localhost:7142/api/Quiz/Mentor/${userId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+        })
         .then((response)=>{
             console.log(response.data);
             setQuizzes(response.data)
