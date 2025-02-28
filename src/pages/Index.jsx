@@ -11,15 +11,18 @@ function Index() {
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   const [selectedQuizForAnswering, setSelectedQuizForAnswering] = useState(null);
   const navigate = useNavigate();
+  const jwt = localStorage.getItem("authToken")
 
   useEffect(() => {
     const fetchAvailableQuizzes = async () => {
+      console.log(jwt)
       try {
-        const response = await fetch('https://localhost:7142/api/Quiz/')
-        console.log(response);
+        const response = await axios.get('https://localhost:7142/api/Quiz/', {
+          headers: {Authorization: `Bearer ${jwt}`}
+        });
+        const data = response.data;
 
-        if(response.ok){
-          const data = await response.json();
+        if(response){
           setQuizzes(data);
           console.log(quizzes);
         }else{
@@ -32,14 +35,12 @@ function Index() {
     fetchAvailableQuizzes();
 
   }, []);
-  const handleTakeQuiz = (quizId) => {
-    console.log("clicked.")
-  }
+  
   return (
     <div className="w-screen h-screen">
       <div className="bg-slate-200 w-full h-full flex flex-col p-10 space-y-4">
       <Navbar/>
-        <div className=" h-full w-full space-y-2">
+        <div className="overflow-y-auto p-4 space-y-2">
           <div className="space-y-3 bg-red">
               <h1 className="uppercase text-xl font-medium">Available Quizzes</h1>
               <div className="border-2 border-black"/>

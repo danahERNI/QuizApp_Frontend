@@ -9,6 +9,7 @@ function QuizModal({ isOpen, onClose, quizId }) {
   const [isCorrect, setIsCorrect] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(null);
+  const jwt = localStorage.getItem("authToken");
 
   useEffect(() => {
     if (!quizId || !isOpen) return;
@@ -18,15 +19,14 @@ function QuizModal({ isOpen, onClose, quizId }) {
       try {
         
         const response = await axios.get(`https://localhost:7142/api/Quiz/${quizId}`, {
-          withCredentials: true,
+          headers: {Authorization: `Bearer ${jwt}`},
+          withCredentials: true
         });
         setQuizData(response.data); 
-        // console.log("this",response.data)
       } catch (error) {
         console.error("Error fetching quiz details:", error);
       } finally {
         setLoading(false)
-        // console.log(quizData)
       }
     };
     
@@ -36,7 +36,6 @@ function QuizModal({ isOpen, onClose, quizId }) {
   if (!isOpen) return null;
   
   const handleChoiceSelect = (questionId, choiceId) => {
-    // console.log(questionId, choiceId)
     setSelectedChoices((prev) => ({
       ...prev,
       [questionId]: choiceId,

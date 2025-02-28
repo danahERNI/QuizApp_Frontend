@@ -11,14 +11,15 @@ function EditModalComp({ isOpen, onClose, quizId }) {
     const [quizTitle, setQuizTitle] = useState('');
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const jwt = localStorage.getItem("authToken"); 
     
-
     useEffect(() => {
         if (!quizId || !isOpen) return;
 
         const fetchQuizData = async () => {
             try {
                 const response = await axios.get(`https://localhost:7142/api/Quiz/${quizId}`, {
+                    headers: {Authorization: `Bearer ${jwt}`},
                     withCredentials: true,
                 });
                 setQuizTitle(response.data.title);
@@ -56,13 +57,12 @@ function EditModalComp({ isOpen, onClose, quizId }) {
         setQuestions(prevQuestions => {
             const updatedQuestions = prevQuestions.filter(q => q.id !== id);
     
-            // Re-index question IDs after removal
             return updatedQuestions.map((q, index) => ({
                 ...q,
-                id: index + 1,  // Ensures correct sequential IDs
+                id: index + 1,
                 choices: q.choices.map((choice, cIndex) => ({
                     ...choice,
-                    id: cIndex + 1, // Re-index choices as well
+                    id: cIndex + 1,
                 }))
             }));
         });

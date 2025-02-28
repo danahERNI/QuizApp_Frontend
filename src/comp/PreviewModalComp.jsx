@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function PreviewModalComp({ isOpen, onClose, quizId }) {
+  const jwt = localStorage.getItem("authToken");
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -11,8 +12,8 @@ function PreviewModalComp({ isOpen, onClose, quizId }) {
     const fetchQuizDetails = async () => {
       setLoading(true);
       try {
-
         const response = await axios.get(`https://localhost:7142/api/Quiz/${quizId}`, {
+          headers: {Authorization: `Bearer ${jwt}`},
           withCredentials: true,
         });
         setQuizData(response.data); 

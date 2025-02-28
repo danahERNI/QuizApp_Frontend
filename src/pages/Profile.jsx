@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 function Profile() {
 const navigate = useNavigate();
   const currentUser = localStorage.getItem('userId');
+  const jwt = localStorage.getItem("authToken");   
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -18,6 +19,7 @@ const navigate = useNavigate();
     const fetchUser = async () => {
       try {
         const response = await axios.get(`https://localhost:7142/api/User/${currentUser}`, {
+          headers: {Authorization: `Bearer ${jwt}`},
           withCredentials: true,
         });
         setUser(response.data)
